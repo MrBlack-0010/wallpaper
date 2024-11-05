@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Website</title>
+    <style>
+        /* Color scheme - customize as needed */
+        :root {
+            --bg-gradient-start: #000000;
+            --bg-gradient-end: #343434;
+            --text-color: #ffffff;
+            --button-bg: #007bff;
+            --button-hover: #0056b3;
+        }
+
+        /* Basic reset and layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background-color:  rgba(70, 70, 70, 0.381);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            width: 100vw;
+            margin: -30px;
+            position: fixed;
+            z-index: 1000;
+        }
+
+        header .logo h1 {
+            font-size: 24px;
+        }
+        .heading {
+            text-align: center;
+        }
+
+        /* Optional styling for text */
+        .heading h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .heading p {
+            font-size: 1.2em;
+            margin: 0.2em 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ddd;
+        }
+        .heading {
+            text-align: center;
+            margin: 3vw;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: 100vw;
+            height: 100vw;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(70, 70, 70, 0.381);
+            padding: 20px;
+            width: 350px;
+            height: 100%; /* Adjust height to ensure all items fit */
+            position: relative;
+        }
+        .wallpaper {
+            width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            aspect-ratio: 16/9 ;
+            object-fit: contain;
+        }
+
+        .info {
+            text-align: left;
+            padding: 10px 0;
+        }
+
+        .image-name {
+            font-size: 16px;
+        }
+
+        /* Hidden checkbox for toggle */
+        .download-checkbox {
+            display: none;
+        }
+
+        /* Download button */
+        .download-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            margin-left: 7vw;
+            margin-top: auto    ;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Popup for format options */
+        .format-options {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 10;
+            width: 300px;
+        }
+
+        .format-options a {
+            display: block;
+            padding: 8px 10px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .format-options a:hover {
+            background-color: #45a049;
+            color: #ffffff;
+        }
+
+        /* Cancel button style */
+        .cancel-btn {
+            display: inline-block;
+            padding: 8px 10px;
+            background-color: #f44336;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #00da24;
+        }
+
+        /* Show format options when checkbox is checked */
+        .download-checkbox:checked + .format-options {
+            display: block;
+        }
+        .site-footer {
+            padding: 20px;          /* Adds space inside the box */
+            background-color:  rgba(70, 70, 70, 0); /* Light background color */
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+        }
+
+        .site-footer .footer-content {
+            max-width: 100%; /* Width of the footer content */
+            margin: 0 auto; /* Center content */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AuraWalls</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="IMAGES/pain-dark-realm.3840x2160.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+    <div class="heading">
+        <h1>Find Your Perfect Wallpaper</h1>
+        <h2>One click away.</h2>
+    </div>
+
+    <div class="gallery">
+        <!-- 16 Images with Download Options -->
+        <!-- Wallpaper 1 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/1.jpg" alt="Wallpaper 1" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 1</span>
+                <label for="download-1" class="download-btn">Download</label>
+                <input type="checkbox" id="download-1" class="download-checkbox">
+                <div class="format-options" id="format-options-1">
+                    <a href="IMAGES/Minimalist/1.jpg" download="Wallpaper1.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/1.png" download="Wallpaper1.png">Download as PNG</a>
+                    <label for="download-1" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 2 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/2.jpg" alt="Wallpaper 2" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 2</span>
+                <label for="download-2" class="download-btn">Download</label>
+                <input type="checkbox" id="download-2" class="download-checkbox">
+                <div class="format-options" id="format-options-2">
+                    <a href="IMAGES/Minimalist/2.jpg" download="Wallpaper2.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/2.png" download="Wallpaper2.png">Download as PNG</a>
+                    <label for="download-2" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 3 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/3.jpg" alt="Wallpaper 3" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 3</span>
+                <label for="download-3" class="download-btn">Download</label>
+                <input type="checkbox" id="download-3" class="download-checkbox">
+                <div class="format-options" id="format-options-3">
+                    <a href="IMAGES/Minimalist/3.jpg" download="Wallpaper3.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/3.png" download="Wallpaper3.png">Download as PNG</a>
+                    <label for="download-3" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 4 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/4.jpg" alt="Wallpaper 4" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 4</span>
+                <label for="download-4" class="download-btn">Download</label>
+                <input type="checkbox" id="download-4" class="download-checkbox">
+                <div class="format-options" id="format-options-4">
+                    <a href="IMAGES/Minimalist/4.jpg" download="Wallpaper4.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/4.png" download="Wallpaper4.png">Download as PNG</a>
+                    <label for="download-4" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 5 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/5.jpg" alt="Wallpaper 5" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 5</span>
+                <label for="download-5" class="download-btn">Download</label>
+                <input type="checkbox" id="download-5" class="download-checkbox">
+                <div class="format-options" id="format-options-5">
+                    <a href="IMAGES/Minimalist/5.jpg" download="Wallpaper5.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/5.png" download="Wallpaper5.png">Download as PNG</a>
+                    <label for="download-5" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 6 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/6.jpg" alt="Wallpaper 6" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 6</span>
+                <label for="download-6" class="download-btn">Download</label>
+                <input type="checkbox" id="download-6" class="download-checkbox">
+                <div class="format-options" id="format-options-6">
+                    <a href="IMAGES/Minimalist/6.jpg" download="Wallpaper6.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/6.png" download="Wallpaper6.png">Download as PNG</a>
+                    <label for="download-6" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 7 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/7.jpg" alt="Wallpaper 7" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 7</span>
+                <label for="download-7" class="download-btn">Download</label>
+                <input type="checkbox" id="download-7" class="download-checkbox">
+                <div class="format-options" id="format-options-7">
+                    <a href="IMAGES/Minimalist/7.jpg" download="Wallpaper7.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/7.png" download="Wallpaper7.png">Download as PNG</a>
+                    <label for="download-7" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 8 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/8.jpg" alt="Wallpaper 8" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 8</span>
+                <label for="download-8" class="download-btn">Download</label>
+                <input type="checkbox" id="download-8" class="download-checkbox">
+                <div class="format-options" id="format-options-8">
+                    <a href="IMAGES/Minimalist/8.jpg" download="Wallpaper8.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/8.png" download="Wallpaper8.png">Download as PNG</a>
+                    <label for="download-8" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 9 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/9.jpg" alt="Wallpaper 9" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 9</span>
+                <label for="download-9" class="download-btn">Download</label>
+                <input type="checkbox" id="download-9" class="download-checkbox">
+                <div class="format-options" id="format-options-9">
+                    <a href="IMAGES/Minimalist/9.jpg" download="Wallpaper9.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/9.png" download="Wallpaper9.png">Download as PNG</a>
+                    <label for="download-9" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 10 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/10.jpg" alt="Wallpaper 10" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 10</span>
+                <label for="download-10" class="download-btn">Download</label>
+                <input type="checkbox" id="download-10" class="download-checkbox">
+                <div class="format-options" id="format-options-10">
+                    <a href="IMAGES/Minimalist/10.jpg" download="Wallpaper10.jpg">Download as JPEG</a>
+                    <a href="IMAGES/Minimalist/10.png" download="Wallpaper10.png">Download as PNG</a>
+                    <label for="download-10" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 11 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/11.jpg" alt="Wallpaper 11" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 11</span>
+                <label for="download-11" class="download-btn">Download</label>
+                <input type="checkbox" id="download-11" class="download-checkbox">
+                <div class="format-options" id="format-options-11">
+                    <a href="IMAGES/Minimalist/11.jpg" download="Wallpaper11.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/11.png" download="Wallpaper11.png">Download as PNG</a>
+                    <label for="download-11" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 12 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/12.jpg" alt="Wallpaper 12" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 12</span>
+                <label for="download-12" class="download-btn">Download</label>
+                <input type="checkbox" id="download-12" class="download-checkbox">
+                <div class="format-options" id="format-options-12">
+                    <a href="IMAGES/Minimalist/12.jpg" download="Wallpaper12.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/12.png" download="Wallpaper12.png">Download as PNG</a>
+                    <label for="download-12" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 13 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/13.jpg" alt="Wallpaper 13" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 13</span>
+                <label for="download-13" class="download-btn">Download</label>
+                <input type="checkbox" id="download-13" class="download-checkbox">
+                <div class="format-options" id="format-options-13">
+                    <a href="IMAGES/Minimalist/13.jpg" download="Wallpaper13.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/13.png" download="Wallpaper13.png">Download as PNG</a>
+                    <label for="download-13" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 14 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/14.jpg" alt="Wallpaper 14" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 14</span>
+                <label for="download-14" class="download-btn">Download</label>
+                <input type="checkbox" id="download-14" class="download-checkbox">
+                <div class="format-options" id="format-options-14">
+                    <a href="IMAGES/Minimalist/14.jpg" download="Wallpaper14.jpg">Download as JPEG</a>
+                    <a href="IMAGES/Minimalist/14.png" download="Wallpaper14.png">Download as PNG</a>
+                    <label for="download-14" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 15 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/15.jpg" alt="Wallpaper 15" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 15</span>
+                <label for="download-15" class="download-btn">Download</label>
+                <input type="checkbox" id="download-15" class="download-checkbox">
+                <div class="format-options" id="format-options-15">
+                    <a href="IMAGES/Minimalist/15.jpg" download="Wallpaper15.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/15.png" download="Wallpaper15.png">Download as PNG</a>
+                    <label for="download-15" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Wallpaper 16 -->
+        <div class="container">
+            <img src="IMAGES/Minimalist/16.jpg" alt="Wallpaper 16" class="wallpaper">
+            <div class="info">
+                <span class="image-name">Wallpaper 16</span>
+                <label for="download-16" class="download-btn">Download</label>
+                <input type="checkbox" id="download-16" class="download-checkbox">
+                <div class="format-options" id="format-options-16">
+                    <a href="IMAGES/Minimalist/16.jpg" download="Wallpaper16.jpg">Download as JPG</a>
+                    <a href="IMAGES/Minimalist/16.png" download="Wallpaper16.png">Download as PNG</a>
+                    <label for="download-16" class="cancel-btn">Cancel</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="about">
+        <div class="about-us-box">
+            <h2>About Us</h2><br>
+            <p>Welcome to AuraWalls your go-to source for high-quality, hand-picked wallpapers that bring your screens to life! We are passionate about making every visit an opportunity for inspiration and creativity.
+                We aim to provide a diverse collection of wallpapers, ranging from stunning landscapes and artistic graphics to trendy minimalist designs and abstract art. Our commitment is to bring users beautiful, high-resolution images suitable for any device, ensuring your screens reflect your unique style and personality.
+            </p>
+
+        </div>
+        <br>
+        <div class="about-us-box">
+            <section id="contact">
+                <h2>Contact Us</h2><br>
+                <p>
+                    Got questions, feedback, or suggestions? We’d love to hear from you! Reach out through our contact page or connect with us on 
+                    <a href="https://WWW.instagram.com">Instagram</a>
+                </p>
+            </section>
+        </div>
+    </section>
+</body>
+<footer class="site-footer">
+    <div class="footer-content">
+        <h2>&copy; 2024 AuraWalls. All rights reserved.</h2>
+    </div>
+</footer>
+</html>

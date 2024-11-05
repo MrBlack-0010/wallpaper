@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Website</title>
+    <style>
+        /* Color scheme - customize as needed */
+        :root {
+            --bg-gradient-start: #000000;
+            --bg-gradient-end: #343434;
+            --text-color: #ffffff;
+            --button-bg: #007bff;
+            --button-hover: #0056b3;
+        }
+
+        /* Basic reset and layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+            margin: 0;
+            justify-content: center;
+            height: 100%;
+        }
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: rgba(70, 70, 70, 0.381);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            width: 100%;
+            top: 0;
+            position: fixed; /* Keeps the header fixed at the top */
+            z-index: 1000; /* Ensures it stays above other content */
+        }
+
+
+        header .logo h1 {
+            font-size: 24px;
+        }
+        .heading {
+            text-align: center;
+        }
+
+        /* Optional styling for text */
+        .heading h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .heading p {
+            font-size: 1.2em;
+            margin: 0.2em 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ddd;
+        }
+        .heading {
+            text-align: center;
+            margin: 13vw;
+        }
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: 100vw;
+            height: 100vw;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+        }
+        /* Button container */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 800px;
+            width: 100%;
+            margin: 5vw;
+        }
+
+        /* Category buttons */
+        .category-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .category-button:hover {
+            background-color: var(--button-hover);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .category-button {
+                width: 100%;
+            }
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(70, 70, 70, 0.381);
+            padding: 20px;
+            width: 350px;
+            position: relative;
+        }
+
+        .wallpaper {
+            width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+       }
+
+        .info {
+            text-align: left;
+            padding: 10px 0;
+        }
+
+        .image-name {
+            font-size: 16px;
+        }
+
+        /* Hidden checkbox for toggle */
+        .download-checkbox {
+            display: none;
+        }
+
+        /* Download button */
+        .download-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            margin-left: 7vw;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Popup for format options */
+        .format-options {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 10;
+            width: 300px;
+        }
+
+        .format-options a {
+            display: block;
+            padding: 8px 10px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .format-options a:hover {
+            background-color: #45a049;
+            color: #ffffff;
+        }
+
+        /* Cancel button style */
+        .cancel-btn {
+            display: inline-block;
+            padding: 8px 10px;
+            background-color: #f44336;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #00da24;
+        }
+
+        /* Show format options when checkbox is checked */
+        .download-checkbox:checked + .format-options {
+            display: block;
+        }
+        .about-us-box {
+            padding: 20px;          /* Adds space inside the box */
+            border-radius: 10px;    /* Rounds the corners of the box */
+            background-color:  rgba(70, 70, 70, 0.381); /* Light background color */
+            margin: 20px auto;      /* Centers the box and adds margin */
+            max-width: 100%;       /* Sets the maximum width */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+        }
+        .site-footer {
+            padding: 20px;          /* Adds space inside the box */
+            background-color:  rgba(70, 70, 70, 0); /* Light background color */
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+        }
+
+        .site-footer .footer-content {
+            max-width: 100%; /* Width of the footer content */
+            margin: 0 auto; /* Center content */
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AuraWalls</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="Signinpage.html">Sign in</a> </li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="IMAGES/pain-dark-realm.3840x2160.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+    <div class="heading">
+        <h1>Find Your Perfect Wallpaper</h1>
+        <h2>Select a category to explore our wallpaper collection.One click away.</h2>
+        <div class="button-container">
+            <a href="all.html" class="category-button">All</a>
+            <a href="anime.html" class="category-button">Anime</a>
+            <a href="gaming.html" class="category-button">Gaming</a>
+            <a href="minimalist.html" class="category-button">Minimalist</a>
+            <a href="natural.html" class="category-button">Nature</a>
+            <a href="night.html" class="category-button">Night</a>
+            <a href="pattern.html" class="category-button">Patterns</a>
+            <a href="cool.html" class="category-button">Cool</a>
+        </div>
+    </div>
+    <section id="about">
+        <div class="about-us-box">
+            <h2>About Us</h2><br>
+            <p>Welcome to AuraWalls your go-to source for high-quality, hand-picked wallpapers that bring your screens to life! We are passionate about making every visit an opportunity for inspiration and creativity.
+                We aim to provide a diverse collection of wallpapers, ranging from stunning landscapes and artistic graphics to trendy minimalist designs and abstract art. Our commitment is to bring users beautiful, high-resolution images suitable for any device, ensuring your screens reflect your unique style and personality.
+            </p>
+
+        </div>
+        <div class="about-us-box">
+            <section id="contact">
+                <h2>Contact Us</h2><br>
+                <p>
+                    Got questions, feedback, or suggestions? We’d love to hear from you! Reach out through our contact page or connect with us on 
+                    <a href="https://WWW.instagram.com">Instagram</a>
+                </p>
+            </section>
+        </div>
+            
+    </section>    
+</body>
+<footer class="site-footer">
+    <div class="footer-content">
+        <h2>&copy; 2024 AuraWalls. All rights reserved.</h2>
+    </div>
+</footer>
+
+</html>
